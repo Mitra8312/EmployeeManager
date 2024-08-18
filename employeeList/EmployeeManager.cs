@@ -6,16 +6,16 @@ namespace employeeList
     /// <summary>
     /// Класс для осуществления манипуляций с данными
     /// </summary>
-    internal class EmployeeManager
+    public class EmployeeManager
     {
-        private static FileManager fileManager = new();
+        private static FileManager FileManager = new();
 
         /// <summary>
         /// Метод добавления пользоватлей в список
         /// </summary>
         /// <param name="arguments">Аргументы из командной строки</param>
         /// <returns>Строка с сообщением о результате операции</returns>
-        public static string AddEmployee(List<string> arguments)
+        public string AddEmployee(List<string> arguments)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace employeeList
 
                 try
                 {
-                    employees = fileManager.LoadEmployees();
+                    employees = FileManager.LoadEmployees();
                 }
                 catch
                 {
@@ -50,7 +50,7 @@ namespace employeeList
                     return "Ошибка введенных данных";
                 employees.Add(newEmployee);
 
-                fileManager.SaveEmployees(employees);
+                FileManager.SaveEmployees(employees);
 
                 return "Сотрудник добавлен успешно";
             }
@@ -65,9 +65,9 @@ namespace employeeList
         /// </summary>
         /// <param name="arguments">Аргументы из командной строки</param>
         /// <returns>Строка с сообщением о результате операции</returns>
-        internal static string UpdateEmployee(List<string> arguments)
+        internal string UpdateEmployee(List<string> arguments)
         {
-            var employees = fileManager.LoadEmployees();
+            var employees = FileManager.LoadEmployees();
 
             int id = GetIdFromArgs(arguments);
 
@@ -88,7 +88,7 @@ namespace employeeList
             }
             else return $"Сотрудник с id = {id} не найден";
 
-            fileManager.SaveEmployees(employees);
+            FileManager.SaveEmployees(employees);
             return "Данные успешно обновлены";
         }
 
@@ -97,9 +97,9 @@ namespace employeeList
         /// </summary>
         /// <param name="arguments">Аргументы из командной строки</param>
         /// <returns>Строка с сообщением о результате операции</returns>
-        internal static string DeleteEmployee(List<string> arguments)
+        internal string DeleteEmployee(List<string> arguments)
         {
-            var employees = fileManager.LoadEmployees();
+            var employees = FileManager.LoadEmployees();
 
             int id = GetIdFromArgs(arguments);
 
@@ -113,7 +113,7 @@ namespace employeeList
             }
             else return $"Сотрудник с id = {id} не найден";
 
-            fileManager.SaveEmployees(employees);
+            FileManager.SaveEmployees(employees);
             return "Данные успешно обновлены";
         }
 
@@ -122,9 +122,9 @@ namespace employeeList
         /// </summary>
         /// <param name="arguments">Аргументы из командной строки</param>
         /// <returns>Строка с сообщением о результате операции</returns>
-        internal static string GetEmployee(List<string> arguments)
+        internal string GetEmployee(List<string> arguments)
         {
-            var employees = fileManager.LoadEmployees();
+            var employees = FileManager.LoadEmployees();
 
             int id = GetIdFromArgs(arguments);
 
@@ -144,10 +144,10 @@ namespace employeeList
         /// Метод вывода списка сотрудников в консоль
         /// </summary>
         /// <returns>Строка с сообщением о результате операции</returns>
-        internal static string GetEmployees()
+        internal string GetEmployees()
         {
             string employeeListString = "";
-            var employees = fileManager.LoadEmployees();
+            var employees = FileManager.LoadEmployees();
 
             if (employees.Count == 0) return "Список сотрудников пуст";
 

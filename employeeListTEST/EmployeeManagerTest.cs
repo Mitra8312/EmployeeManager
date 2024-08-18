@@ -1,7 +1,7 @@
 using employeeList;
 using System.Reflection;
 
-namespace EmployeeManagerTests
+namespace employeeListTEST
 {
     [TestFixture]
     public class EmployeeManagerTests
@@ -18,6 +18,8 @@ namespace EmployeeManagerTests
         [Test]
         public void AddEmployee_ValidArguments_AddsEmployeeSuccessfully()
         {
+
+
             var arguments = new List<string>
             {
                 "FirstName:John",
@@ -25,11 +27,11 @@ namespace EmployeeManagerTests
                 "Salary:30"
             };
 
-            var result = EmployeeManager.AddEmployee(arguments);
+            var result = new EmployeeManager().AddEmployee(arguments);
 
             Assert.That(result, Is.EqualTo("Сотрудник добавлен успешно"));
 
-            var employees = EmployeeManager.LoadEmployees();
+            var employees = new FileManager().LoadEmployees();
             Assert.IsNotNull(employees);
             Assert.That(employees.Count, Is.EqualTo(1));
             Assert.That(employees[0].FirstName, Is.EqualTo("John"));
@@ -47,7 +49,7 @@ namespace EmployeeManagerTests
                 "Salary:abc"
             };
 
-            var result = EmployeeManager.AddEmployee(arguments);
+            var result = new EmployeeManager().AddEmployee(arguments);
 
             Assert.That(result, Is.EqualTo("Ошибка при чтении введенных данных"));
         }

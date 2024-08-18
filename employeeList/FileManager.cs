@@ -2,7 +2,7 @@
 
 namespace employeeList
 {
-    internal class FileManager
+    public class FileManager
     {
         /// <summary>
         /// Путь к файлу со списком сотрудников
@@ -13,7 +13,7 @@ namespace employeeList
         /// Метод загрузки пользоватлеей из файла
         /// </summary>
         /// <returns>Массив сотрудников из файла</returns>
-        internal List<EmployeeModel> LoadEmployees()
+        public List<EmployeeModel> LoadEmployees()
         {
             try
             {

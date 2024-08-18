@@ -2,6 +2,8 @@
 
 internal class Program
 {
+    private static EmployeeManager EmployeeManager { get; set; } = new();
+
     private static void Main(string[] args)
     {
         switch (args[0])
