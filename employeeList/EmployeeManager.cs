@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Reflection;
 
 namespace employeeList
@@ -7,52 +6,9 @@ namespace employeeList
     /// <summary>
     /// Класс для осуществления манипуляций с данными
     /// </summary>
-    public class EmployeeManager
+    internal class EmployeeManager
     {
-        /// <summary>
-        /// Путь к файлу со списком сотрудников
-        /// </summary>
-        private static string FilePath = "employees.txt";
-
-        /// <summary>
-        /// Метод загрузки пользоватлеей из файла
-        /// </summary>
-        /// <returns>Массив сотрудников из файла</returns>
-        public static List<EmployeeModel> LoadEmployees()
-        {
-            try
-            {
-                if (!File.Exists(FilePath))
-                {
-                    return [];
-                }
-
-                var json = File.ReadAllText(FilePath);
-                return JsonConvert.DeserializeObject<List<EmployeeModel>>(json);
-            }
-            catch
-            {
-                Console.WriteLine("Ошибка при загрузке данных из файла");
-                return [];
-            }
-        }
-
-        /// <summary>
-        /// Метод сохранения списка пользователей в файл
-        /// </summary>
-        /// <param name="employees">Список пользователей</param>
-        private static void SaveEmployees(List<EmployeeModel> employees)
-        {
-            try
-            {
-                var json = JsonConvert.SerializeObject(employees);
-                File.WriteAllText(FilePath, json);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
+        private static FileManager fileManager = new();
 
         /// <summary>
         /// Метод добавления пользоватлей в список
@@ -67,7 +23,7 @@ namespace employeeList
 
                 try
                 {
-                    employees = LoadEmployees();
+                    employees = fileManager.LoadEmployees();
                 }
                 catch
                 {
@@ -94,7 +50,7 @@ namespace employeeList
                     return "Ошибка введенных данных";
                 employees.Add(newEmployee);
 
-                SaveEmployees(employees);
+                fileManager.SaveEmployees(employees);
 
                 return "Сотрудник добавлен успешно";
             }
@@ -111,7 +67,7 @@ namespace employeeList
         /// <returns>Строка с сообщением о результате операции</returns>
         internal static string UpdateEmployee(List<string> arguments)
         {
-            var employees = LoadEmployees();
+            var employees = fileManager.LoadEmployees();
 
             int id = GetIdFromArgs(arguments);
 
@@ -132,7 +88,7 @@ namespace employeeList
             }
             else return $"Сотрудник с id = {id} не найден";
 
-            SaveEmployees(employees);
+            fileManager.SaveEmployees(employees);
             return "Данные успешно обновлены";
         }
 
@@ -143,7 +99,7 @@ namespace employeeList
         /// <returns>Строка с сообщением о результате операции</returns>
         internal static string DeleteEmployee(List<string> arguments)
         {
-            var employees = LoadEmployees();
+            var employees = fileManager.LoadEmployees();
 
             int id = GetIdFromArgs(arguments);
 
@@ -157,7 +113,7 @@ namespace employeeList
             }
             else return $"Сотрудник с id = {id} не найден";
 
-            SaveEmployees(employees);
+            fileManager.SaveEmployees(employees);
             return "Данные успешно обновлены";
         }
 
@@ -168,7 +124,7 @@ namespace employeeList
         /// <returns>Строка с сообщением о результате операции</returns>
         internal static string GetEmployee(List<string> arguments)
         {
-            var employees = LoadEmployees();
+            var employees = fileManager.LoadEmployees();
 
             int id = GetIdFromArgs(arguments);
 
@@ -191,7 +147,7 @@ namespace employeeList
         internal static string GetEmployees()
         {
             string employeeListString = "";
-            var employees = LoadEmployees();
+            var employees = fileManager.LoadEmployees();
 
             if (employees.Count == 0) return "Список сотрудников пуст";
 
